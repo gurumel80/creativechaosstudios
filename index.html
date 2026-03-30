@@ -1,70 +1,953 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Creative Chaos Studios</title>
-  <style>
-    body { margin:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f2f2f2; color:#222; text-align:center; }
-    header { background:#5c4dfc; color:white; padding:80px 20px 40px; }
-    header h1 { font-size:3rem; margin:0 0 20px; }
-    header p { font-size:1.2rem; max-width:600px; margin:0 auto; }
-    
-    section { padding:50px 20px; max-width:1000px; margin:0 auto; text-align:left; }
-    section h2 { font-size:2rem; margin-bottom:20px; text-align:center; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOO MANY MONKEYS 🐒</title>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Lilita+One&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --banana:#ffe234;--banana2:#e6b800;
+  --poop:#7b4a1e;--poop2:#5a3210;
+  --outline:#1a0a00;--cream:#fffbe6;
+  --red:#ff3b2f;--white:#fff;
+  --panel-h:148px;
+}
+html,body{width:100%;height:100%;overflow:hidden;}
+body{font-family:'Boogaloo',cursive;background:#38c4ee;cursor:default;position:relative;}
 
-    /* Scrollable list */
-    .scroll-list { display:flex; overflow-x:auto; gap:20px; padding-bottom:10px; margin-bottom:20px; }
-    .scroll-list::-webkit-scrollbar { height:8px; }
-    .scroll-list::-webkit-scrollbar-thumb { background:#6a5dfc; border-radius:4px; }
-    .scroll-list li { flex:0 0 200px; background:white; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1); padding:20px; transition: transform 0.2s, box-shadow 0.2s; list-style:none; }
-    .scroll-list li:hover { transform:translateY(-5px); box-shadow:0 8px 16px rgba(0,0,0,0.15); }
-    .scroll-list a { text-decoration:none; color:#5c4dfc; font-weight:bold; display:block; font-size:1.1rem; text-align:center; }
+/* ═══ SCENE ═══ */
+#scene{position:absolute;top:0;left:0;right:0;bottom:var(--panel-h);overflow:hidden;}
+#scene::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,#1aa8d8 0%,#5de0ff 30%,#88f050 30%,#5ecf2a 48%,#3aaa10 56%,#a06030 56%,#7a4020 100%);}
+#scene::after{content:'🌿🌿🌿🌿🌿🌿🌿🌿🌿🌿🌿🌿🌿🌿🌿🌿🌿🌿🌿🌿';
+  position:absolute;bottom:42%;left:0;right:0;font-size:3rem;letter-spacing:-6px;line-height:1;
+  pointer-events:none;user-select:none;filter:drop-shadow(0 4px 0 #2a8a00);}
+#sun{position:absolute;top:6%;right:8%;font-size:4rem;animation:sunSpin 20s linear infinite;filter:drop-shadow(0 0 12px #ffe060);z-index:1;pointer-events:none;}
+@keyframes sunSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.cloud{position:absolute;animation:cloudDrift linear infinite;z-index:2;user-select:none;pointer-events:none;}
+@keyframes cloudDrift{from{left:-140px}to{left:calc(100% + 140px)}}
+.tree{position:absolute;bottom:39%;filter:drop-shadow(3px 3px 0 #0a2800);animation:treeSway 2.8s ease-in-out infinite;transform-origin:bottom center;z-index:3;user-select:none;pointer-events:none;}
+@keyframes treeSway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
 
-    /* Footer */
-    footer { padding:30px 20px; background:#222; color:white; font-size:0.9rem; text-align:center; }
+/* ═══ MONKEYS — 3 rows ═══ */
+.monkey{position:absolute;z-index:12;pointer-events:none;user-select:none;will-change:transform;}
+.monkey.wobble-a{animation:mWobA 1.1s ease-in-out infinite}
+.monkey.wobble-b{animation:mWobB 0.9s ease-in-out infinite}
+.monkey.wobble-c{animation:mWobC 1.4s ease-in-out infinite}
+@keyframes mWobA{0%,100%{transform:var(--mf) rotate(-6deg)}50%{transform:var(--mf) rotate(6deg)}}
+@keyframes mWobB{0%,100%{transform:var(--mf) scaleY(1)}50%{transform:var(--mf) scaleY(1.1) translateY(-5px)}}
+@keyframes mWobC{0%,100%{transform:var(--mf) rotate(-4deg)}50%{transform:var(--mf) rotate(4deg) scaleX(1.06)}}
+.monkey.flinging{animation:mFling 0.4s ease-out forwards!important}
+@keyframes mFling{0%{transform:var(--mf) rotate(0) scale(1)}35%{transform:var(--mf) rotate(-42deg) scale(1.5)}100%{transform:var(--mf) rotate(0) scale(1)}}
+.monkey.scared{animation:mScared 0.28s ease-in-out 3!important}
+@keyframes mScared{0%,100%{transform:var(--mf)}50%{transform:var(--mf) scale(1.35) rotate(12deg)}}
 
-    @media(max-width:500px){ header h1{font-size:2.2rem;} header p{font-size:1rem;} }
-  </style>
+/* ═══ POOP PILE — fixed above panel, builds from bottom ═══ */
+#poopCorner{
+  position:fixed;
+  bottom:var(--panel-h);
+  left:6px;
+  width:150px;
+  height:230px;
+  z-index:14;
+  transform-origin:bottom center;
+  pointer-events:none;
+}
+#poopStack{position:absolute;inset:0;}
+.poop-em{
+  position:absolute;
+  line-height:1;
+  filter:drop-shadow(1px 2px 0 var(--poop2));
+  user-select:none;
+  transition:font-size 0.3s;
+}
+#poopLabel{
+  position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);
+  font-family:'Lilita One',cursive;font-size:1rem;
+  color:var(--poop);background:var(--cream);
+  border:3px solid var(--poop);border-radius:10px;
+  padding:1px 10px;box-shadow:2px 2px 0 var(--poop2);white-space:nowrap;z-index:2;
+}
+#poopCorner.wobble{animation:pWob 0.35s ease-in-out}
+@keyframes pWob{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg) scale(1.08)}75%{transform:rotate(10deg) scale(1.08)}}
+#poopCorner.exploding{animation:pExplode 0.8s forwards}
+@keyframes pExplode{0%{transform:scale(1)}20%{transform:scale(1.6) rotate(-12deg)}50%{transform:scale(2.9) rotate(22deg)}100%{transform:scale(0) rotate(900deg);opacity:0}}
+
+/* ═══ BANANA RAIN ═══ */
+.banana-drop{position:absolute;top:0;font-size:2.4rem;z-index:20;pointer-events:none;user-select:none;animation:bFall linear forwards;filter:drop-shadow(1px 2px 0 var(--outline));}
+@keyframes bFall{0%{transform:translateY(-60px) rotate(0);opacity:1}88%{opacity:1}100%{transform:translateY(var(--fd)) rotate(600deg);opacity:0}}
+.splat{position:absolute;font-size:2rem;z-index:21;pointer-events:none;animation:splatAnim 0.4s forwards;}
+@keyframes splatAnim{0%{transform:scale(0);opacity:1}50%{transform:scale(1.6) rotate(20deg);opacity:1}100%{transform:scale(0.8);opacity:0}}
+.star{position:fixed;font-size:1.8rem;z-index:90;pointer-events:none;animation:starPop 0.7s forwards;}
+@keyframes starPop{0%{transform:translate(0,0) scale(0) rotate(0);opacity:1}60%{transform:translate(var(--sx),var(--sy)) scale(1.2) rotate(180deg);opacity:1}100%{transform:translate(var(--sx2),var(--sy2)) scale(0) rotate(360deg);opacity:0}}
+.poop-flung{position:fixed;font-size:2rem;z-index:25;pointer-events:none;animation:pFlung 0.85s ease-in forwards;}
+@keyframes pFlung{0%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(var(--fx),var(--fy)) rotate(760deg);opacity:0}}
+.attacker{position:absolute;font-size:4.5rem;z-index:30;pointer-events:none;filter:drop-shadow(3px 3px 0 var(--outline));animation:attackSwoop var(--dur,1.6s) ease-in-out forwards;}
+@keyframes attackSwoop{0%{transform:translateX(0) translateY(0) scale(0.6)}15%{transform:translateX(var(--mx)) translateY(-40px) scale(1.3)}50%{transform:translateX(var(--cx)) translateY(10px) scale(1.1)}85%{transform:translateX(var(--mx2)) translateY(-20px) scale(1.2)}100%{transform:translateX(var(--ex)) translateY(0) scale(0.6)}}
+
+/* ═══ HUD ═══ */
+#hud{position:absolute;top:0;left:0;right:0;z-index:50;padding:8px 10px 0;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none;}
+.hud-pill{background:var(--outline);color:var(--banana);font-family:'Lilita One',cursive;font-size:1.3rem;padding:5px 14px;border-radius:999px;border:3px solid var(--banana2);box-shadow:3px 3px 0 var(--banana2);display:flex;align-items:center;gap:6px;white-space:nowrap;}
+.hud-pill.danger{background:var(--red);border-color:#ff9980;animation:hPulse 0.4s infinite;}
+@keyframes hPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+#roundPill{font-size:0.9rem;color:#fff;}
+
+/* ═══ EVENT BANNER — click to dismiss ═══ */
+#eventBanner{
+  position:absolute;top:38%;left:50%;
+  transform:translate(-50%,-50%) scale(0) rotate(-3deg);
+  z-index:80;cursor:pointer;
+  background:var(--outline);color:var(--white);
+  font-family:'Lilita One',cursive;font-size:1.45rem;
+  padding:14px 28px;border-radius:22px;
+  border:5px solid var(--banana);
+  box-shadow:7px 7px 0 var(--banana2),0 0 50px rgba(0,0,0,0.5);
+  text-align:center;max-width:86vw;
+  line-height:1.4;white-space:pre-line;
+  transition:transform 0.3s cubic-bezier(.34,1.8,.64,1),opacity 0.25s;opacity:0;
+  user-select:none;
+}
+#eventBanner.show{transform:translate(-50%,-50%) scale(1) rotate(0deg);opacity:1}
+#eventBanner .be{font-size:2.8rem;display:block;margin-bottom:4px;}
+#eventBanner .tap{font-size:0.75rem;opacity:0.6;display:block;margin-top:6px;font-family:'Boogaloo',cursive;}
+
+/* ═══ PANEL ═══ */
+#panel{
+  position:absolute;bottom:0;left:0;right:0;height:var(--panel-h);z-index:50;
+  background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0.8) 22%,#0d0400 100%);
+  display:flex;flex-direction:row;align-items:center;gap:10px;padding:6px 14px 12px;
+}
+#sliderCol{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+#bananaCountRow{
+  display:flex;align-items:baseline;gap:6px;
+  padding:3px 8px 3px;
+  background:rgba(0,0,0,0.4);border-radius:10px;
+  margin-bottom:2px;
+}
+#bananaCountRow .cnt{
+  font-family:'Lilita One',cursive;font-size:2.4rem;
+  color:var(--banana);text-shadow:3px 3px 0 var(--outline);line-height:1;
+}
+#bananaCountRow .mood{
+  font-family:'Boogaloo',cursive;font-size:0.95rem;color:#ffdd88;line-height:1.2;
+}
+input[type=range]{-webkit-appearance:none;width:100%;height:16px;border-radius:8px;background:linear-gradient(90deg,#3fa822,#ffe234,#ff6b00,#ff3b2f);border:3px solid var(--outline);outline:none;cursor:grab;display:block;}
+input[type=range]:active{cursor:grabbing}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:46px;height:46px;border-radius:50%;background:var(--banana);border:4px solid var(--outline);box-shadow:3px 3px 0 var(--banana2);cursor:grab;transition:transform 0.1s;}
+input[type=range]:active::-webkit-slider-thumb{transform:scale(1.25)}
+.slider-labels{display:flex;justify-content:space-between;font-size:0.68rem;color:#ffcc88;}
+#shipBtn{
+  flex-shrink:0;width:158px;height:122px;
+  font-family:'Lilita One',cursive;font-size:1.45rem;line-height:1.2;
+  background:var(--banana);color:var(--outline);
+  border:5px solid var(--outline);border-radius:22px;
+  cursor:pointer;box-shadow:6px 6px 0 var(--outline);
+  transition:all 0.08s;letter-spacing:0.5px;
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-align:center;
+}
+#shipBtn .be{font-size:2.5rem;line-height:1;display:block;}
+#shipBtn::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0.3) 0%,transparent 50%);border-radius:16px;pointer-events:none;}
+#shipBtn:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--outline);background:#ffec50;}
+#shipBtn:active{transform:translate(4px,4px);box-shadow:2px 2px 0 var(--outline);}
+#shipBtn:disabled{opacity:0.35;cursor:not-allowed;transform:none;box-shadow:6px 6px 0 var(--outline);}
+
+/* ═══ OVERLAYS ═══ */
+.overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.82);align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+.overlay.show{display:flex;}
+.over-card{background:var(--cream);border:6px solid var(--outline);border-radius:28px;padding:28px 34px;text-align:center;box-shadow:8px 8px 0 var(--outline);max-width:420px;width:92%;animation:popIn 0.4s cubic-bezier(.34,1.56,.64,1);}
+@keyframes popIn{from{transform:scale(0.2) rotate(-12deg);opacity:0}to{transform:none;opacity:1}}
+.over-emoji{font-size:4.5rem;display:block;margin-bottom:6px}
+.over-title{font-family:'Lilita One',cursive;font-size:2.4rem;color:var(--outline);line-height:1;margin-bottom:8px}
+.over-msg{font-size:0.98rem;color:#555;line-height:1.5;margin-bottom:14px}
+.over-stats{display:flex;justify-content:center;gap:18px;margin-bottom:16px}
+.over-stat .v{font-family:'Lilita One',cursive;font-size:1.9rem;color:var(--outline)}
+.over-stat .l{font-size:0.65rem;text-transform:uppercase;letter-spacing:1px;color:#999;font-weight:700}
+.over-btn{font-family:'Lilita One',cursive;font-size:1.3rem;padding:9px 28px;background:var(--outline);color:var(--banana);border:4px solid var(--banana2);border-radius:14px;cursor:pointer;box-shadow:4px 4px 0 var(--banana2);transition:all 0.08s;margin:4px;}
+.over-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--banana2)}
+.over-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--banana2)}
+.over-btn.alt{background:var(--cream);color:var(--outline);border-color:var(--outline);box-shadow:4px 4px 0 var(--outline);}
+.over-btn.alt:hover{box-shadow:6px 6px 0 var(--outline)}
+
+/* ═══ TITLE SCREEN ═══ */
+#titleScreen .over-card{max-width:480px;}
+#titleScreen .game-title{font-family:'Lilita One',cursive;font-size:3rem;color:var(--outline);line-height:1;text-shadow:4px 4px 0 var(--banana2);}
+#titleScreen .tagline{font-size:1rem;color:#666;margin:6px 0 18px;line-height:1.4;}
+.btn-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:8px;}
+
+/* ═══ HOW TO PLAY ═══ */
+#howToPlay .htpBody{text-align:left;font-size:0.9rem;color:#444;line-height:1.6;margin:10px 0 16px;}
+#howToPlay .htpBody b{color:var(--outline);}
+#howToPlay .htpBody .rule{padding:4px 0;border-bottom:1px dashed #ddd;}
+
+/* ═══ LEADERBOARD ═══ */
+#leaderboard .lb-table{width:100%;border-collapse:collapse;font-size:0.9rem;margin:10px 0 16px;}
+#leaderboard .lb-table th{font-family:'Lilita One',cursive;color:var(--poop);border-bottom:3px solid var(--outline);padding:4px 6px;text-align:left;}
+#leaderboard .lb-table td{padding:5px 6px;border-bottom:1px solid #e0cba0;}
+#leaderboard .lb-table tr:first-child td{font-size:1.05rem;font-weight:700;}
+.lb-empty{color:#aaa;font-style:italic;padding:12px 0;}
+.medal{font-size:1.3rem;}
+
+/* ═══ SHAKE ═══ */
+@keyframes shake{0%,100%{transform:none}15%{transform:translate(-10px,6px) rotate(-1.5deg)}35%{transform:translate(10px,-6px) rotate(1.5deg)}55%{transform:translate(-8px,8px) rotate(-0.8deg)}75%{transform:translate(8px,-4px) rotate(0.8deg)}}
+body.shaking{animation:shake 0.42s ease-out}
+</style>
 </head>
 <body>
 
-<header>
-  <img src="banner.png" alt="Creative Chaos Studios Banner" style="max-width:100%; height:auto; margin-bottom:20px;">
-  <h1>Creative Chaos Studios</h1>
-  <p>Making fun, playful games for everyone! Explore our interactive apps, creative projects, and educational games for kids.</p>
-</header>
+<!-- Scene -->
+<div id="scene">
+  <div id="sun">☀️</div>
+  <div class="cloud" style="animation-duration:28s;animation-delay:-5s;top:4%;font-size:3.5rem">☁️</div>
+  <div class="cloud" style="animation-duration:38s;animation-delay:-20s;top:11%;font-size:2.4rem">☁️</div>
+  <div class="cloud" style="animation-duration:22s;animation-delay:-11s;top:2%;font-size:4rem">☁️</div>
+  <div class="cloud" style="animation-duration:46s;animation-delay:-34s;top:17%;font-size:2rem">☁️</div>
+  <div class="tree" style="left:2%;font-size:7rem">🌴</div>
+  <div class="tree" style="left:14%;font-size:5rem;animation-delay:0.7s">🌳</div>
+  <div class="tree" style="left:30%;font-size:6.5rem;animation-delay:1.3s">🌴</div>
+  <div class="tree" style="left:50%;font-size:5.5rem;animation-delay:0.4s">🌳</div>
+  <div class="tree" style="left:66%;font-size:7.5rem;animation-delay:1.8s">🌴</div>
+  <div class="tree" style="left:82%;font-size:5rem;animation-delay:1.0s">🌳</div>
+  <div class="tree" style="left:94%;font-size:6rem;animation-delay:0.2s">🌴</div>
+</div>
 
-<section>
-  <h2>Featured Games</h2>
-  <ul class="scroll-list">
-    <li><a href="https://star-soup.vercel.app" target="_blank">Star Soup</a></li>
-    <li><a href="https://chronicle-world.vercel.app" target="_blank">Chronicle World</a></li>
-    <li><a href="https://pocket-altar.vercel.app" target="_blank">Pocket Altar</a></li>
-    <li><a href="https://letter-storm.vercel.app" target="_blank">Letter Storm</a></li>
-  </ul>
-</section>
+<!-- Poop pile -->
+<div id="poopCorner">
+  <div id="poopStack"></div>
+  <div id="poopLabel">💩 0</div>
+</div>
 
-<section>
-  <h2>Educational Games</h2>
-  <ul class="scroll-list">
-    <li><a href="https://star-soup.vercel.app" target="_blank">Star Soup</a></li>
-    <li><a href="https://letter-storm.vercel.app" target="_blank">Letter Storm</a></li>
-  </ul>
-  <p>Fun SEN/EYFS games designed for learning core skills like counting, number bonds, shapes, and basic addition/subtraction.</p>
-</section>
+<!-- HUD -->
+<div id="hud">
+  <div class="hud-pill" id="monkeyPill">🐒 <span id="hudMonkeys">6</span></div>
+  <div class="hud-pill" id="roundPill">Round <span id="hudRound">1</span>/15</div>
+  <div class="hud-pill" id="bananaPill">🍌 <span id="hudBananas">20</span></div>
+</div>
 
-<section>
-  <h2>Creative Apps & Projects</h2>
-  <ul class="scroll-list">
-    <li><a href="https://pocket-altar.vercel.app" target="_blank">Pocket Altar</a></li>
-  </ul>
-  <p>Explore experimental games, creative coding, and projects made with the whole team at Creative Chaos Studios.</p>
-</section>
+<!-- Event Banner (click to dismiss) -->
+<div id="eventBanner" onclick="dismissBanner()">
+  <span class="be" id="bannerEmoji">❓</span>
+  <span id="bannerText"></span>
+  <span class="tap">tap to continue</span>
+</div>
 
-<footer>
-  &copy; 2026 Creative Chaos Studios | Made with love and chaos
-</footer>
+<!-- Panel -->
+<div id="panel">
+  <div id="sliderCol">
+    <div id="bananaCountRow">
+      <span class="cnt">🍌 <span id="sliderVal">15</span></span>
+      <span class="mood" id="sliderMood">bananas per shipment</span>
+    </div>
+    <input type="range" id="bananaSlider" min="0" max="50" value="15">
+    <div class="slider-labels"><span>😢 none</span><span>😊 just right</span><span>🤯 too many!</span></div>
+  </div>
+  <button id="shipBtn" onclick="shipBananas()">
+    <span class="be">🚢</span>
+    <span>SHIP IT!</span>
+    <span style="font-size:1.1rem">🍌🍌🍌</span>
+  </button>
+</div>
 
+<!-- ═══ TITLE SCREEN ═══ -->
+<div class="overlay show" id="titleScreen">
+  <div class="over-card">
+    <span class="over-emoji">🐒🍌💩</span>
+    <div class="game-title">TOO MANY<br>MONKEYS!</div>
+    <div class="tagline" id="titleTagline">Loading...</div>
+    <div class="btn-row">
+      <button class="over-btn" onclick="startGame()">🍌 PLAY!</button>
+      <button class="over-btn alt" onclick="showHowToPlay()">❓ How To Play</button>
+      <button class="over-btn alt" onclick="showLeaderboard()">🏆 Leaderboard</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ HOW TO PLAY ═══ -->
+<div class="overlay" id="howToPlay">
+  <div class="over-card">
+    <span class="over-emoji">📖</span>
+    <div class="over-title">HOW TO PLAY</div>
+    <div class="htpBody">
+      <div class="rule">🐒 <b>Who's going to feed all these monkeys? You! That's who.</b></div>
+      <div class="rule">🍌 Each round, slide the slider and ship bananas to the colony.</div>
+      <div class="rule">💩 Every monkey produces one poop per round. Poop piles up. <b>Reach 100 and you drown.</b></div>
+      <div class="rule">🦍 Animals will attack! Your monkeys fling poop to fight them off. <b>You actually NEED poop for this.</b></div>
+      <div class="rule">⚠️ Too many bananas = too many monkeys = too much poop. Too few = monkeys starve and leave.</div>
+      <div class="rule">🏆 Survive all 15 rounds without drowning in poop. Simple. Probably.</div>
+      <div class="rule" style="border:none">💡 <b>Pro tip:</b> A bit of poop is good. A lot of poop is very, very bad.</div>
+    </div>
+    <button class="over-btn" onclick="hideHowToPlay()">Got it! 🐒</button>
+  </div>
+</div>
+
+<!-- ═══ LEADERBOARD ═══ -->
+<div class="overlay" id="leaderboard">
+  <div class="over-card">
+    <span class="over-emoji">🏆</span>
+    <div class="over-title">LEADERBOARD</div>
+    <div id="lbContent"></div>
+    <button class="over-btn" onclick="hideLeaderboard()">Close 🐒</button>
+  </div>
+</div>
+
+<!-- ═══ GAME OVER ═══ -->
+<div class="overlay" id="gameOverScreen">
+  <div class="over-card">
+    <span class="over-emoji" id="overEmoji">💩</span>
+    <div class="over-title" id="overTitle">POOP FLOOD!</div>
+    <div class="over-msg" id="overMsg"></div>
+    <div class="over-stats">
+      <div class="over-stat"><div class="v" id="overR">0</div><div class="l">Rounds</div></div>
+      <div class="over-stat"><div class="v" id="overM">0</div><div class="l">Peak 🐒</div></div>
+      <div class="over-stat"><div class="v" id="overP">0</div><div class="l">Max 💩</div></div>
+    </div>
+    <div class="btn-row">
+      <button class="over-btn" onclick="resetGame()">🍌 Play Again</button>
+      <button class="over-btn alt" onclick="showLeaderboardFromEnd()">🏆 Scores</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// AUDIO
+// ═══════════════════════════════════════════════
+let AC=null;
+function getAC(){if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();return AC;}
+function tone(f,t,dur,vol=0.35,f0=null){try{const ac=getAC(),o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.type=t;if(f0){o.frequency.setValueAtTime(f0,ac.currentTime);o.frequency.exponentialRampToValueAtTime(f,ac.currentTime+dur*0.8);}else o.frequency.setValueAtTime(f,ac.currentTime);g.gain.setValueAtTime(vol,ac.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+dur);o.start();o.stop(ac.currentTime+dur);}catch(e){}}
+function noise(dur,vol=0.28,freq=800){try{const ac=getAC(),buf=ac.createBuffer(1,ac.sampleRate*dur,ac.sampleRate),d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1);const s=ac.createBufferSource(),g=ac.createGain(),f=ac.createBiquadFilter();f.type='bandpass';f.frequency.value=freq;f.Q.value=0.6;s.buffer=buf;s.connect(f);f.connect(g);g.connect(ac.destination);g.gain.setValueAtTime(vol,ac.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+dur);s.start();s.stop(ac.currentTime+dur);}catch(e){}}
+function monkeyVoice(v=0){const p=[()=>{[280,350,280,420,330].forEach((f,i)=>setTimeout(()=>tone(f,'sine',0.11,0.28),i*65));},()=>{[320,260,400,260,380].forEach((f,i)=>setTimeout(()=>tone(f,'sine',0.13,0.3),i*55));},()=>{tone(500,'sine',0.08,0.22,260);setTimeout(()=>tone(320,'sine',0.12,0.26,480),90);setTimeout(()=>tone(260,'sine',0.1,0.24),200);},()=>{[240,300,260,340,300,400].forEach((f,i)=>setTimeout(()=>tone(f,'sine',0.09,0.25),i*50));},()=>{tone(380,'triangle',0.15,0.3,220);setTimeout(()=>{tone(440,'sine',0.1,0.28,280);tone(300,'sine',0.08,0.22);},120);},()=>{[600,800,600,900,700,1000].forEach((f,i)=>setTimeout(()=>tone(f,'sine',0.07,0.2),i*40));},];p[v%p.length]();}
+const SFX={
+  monkeyChatter(){monkeyVoice(Math.floor(Math.random()*6));},
+  monkeyExcited(){monkeyVoice(5);setTimeout(()=>monkeyVoice(2),200);},
+  bananaLand(){tone(140,'triangle',0.16,0.28,320);setTimeout(()=>tone(220,'sine',0.07,0.14),110);},
+  poopPlop(){tone(90,'sawtooth',0.22,0.32,220);noise(0.14,0.18,400);},
+  poopFling(){tone(550,'sawtooth',0.07,0.18,950);setTimeout(()=>{tone(65,'square',0.18,0.28,190);noise(0.14,0.16,600);},110);},
+  attack(){tone(110,'square',0.14,0.48,75);setTimeout(()=>tone(180,'sawtooth',0.28,0.38,360),75);setTimeout(()=>tone(95,'square',0.38,0.48),190);},
+  repelled(){[420,530,640,820].forEach((f,i)=>setTimeout(()=>tone(f,'square',0.11,0.28),i*75));monkeyVoice(5);},
+  stolen(){[280,230,185,140].forEach((f,i)=>setTimeout(()=>tone(f,'sawtooth',0.19,0.32),i*110));},
+  babyMonkey(){[720,920,1100,940].forEach((f,i)=>setTimeout(()=>tone(f,'sine',0.09,0.2),i*55));monkeyVoice(3);},
+  monkeyLeave(){[380,290,200].forEach((f,i)=>setTimeout(()=>tone(f,'triangle',0.14,0.28),i*100));},
+  flood(){tone(48,'sawtooth',0.55,0.48);tone(58,'square',0.55,0.38);noise(0.5,0.32,200);},
+  storm(){noise(0.38,0.38,600);setTimeout(()=>tone(380,'sawtooth',0.14,0.28,750),200);},
+  rainbow(){[620,820,1020,1220,1020,820].forEach((f,i)=>setTimeout(()=>tone(f,'sine',0.11,0.17),i*52));},
+  mushroom(){[520,720,620,920,820,1120].forEach((f,i)=>setTimeout(()=>tone(f,'triangle',0.09,0.2),i*58));},
+  gorilla(){[58,75,58].forEach((f,i)=>setTimeout(()=>{tone(f,'square',0.19,0.52);noise(0.14,0.28,300);},i*190));},
+  poopExplode(){noise(0.55,0.58,250);tone(48,'sawtooth',0.5,0.58);[195,145,100,75].forEach((f,i)=>setTimeout(()=>tone(f,'square',0.14,0.38),i*48));},
+  heatwave(){tone(290,'sawtooth',0.38,0.28,95);noise(0.28,0.18,1200);},
+  win(){[420,530,640,530,640,750,860,1050].forEach((f,i)=>setTimeout(()=>tone(f,'square',0.13,0.28),i*65));setTimeout(()=>monkeyVoice(5),400);},
+};
+
+// ═══════════════════════════════════════════════
+// QUIPS
+// ═══════════════════════════════════════════════
+const TITLE_LINES=[
+  "Who's going to feed all these monkeys?\nYou! That's who.",
+  "It smells terrible here.\nThat's your problem now.",
+  "The monkeys are hungry.\nThe poop pile is growing.\nGood luck.",
+  "Somewhere, 6 monkeys await their destiny.\nAnd their bananas.",
+  "WARNING: Contains monkeys.\nAnd a lot of poop.",
+  "You didn't ask to be Banana Manager.\nBut here you are.",
+  "The colony is counting on you.\nNo pressure. Loads of pressure.",
+];
+const WIN_LINES=[
+  "The monkeys are thrilled! You're basically a banana wizard.",
+  "15 rounds! The poop never won. YOU won. Legendary.",
+  "You managed monkeys better than most people manage anything.",
+  "The colony has declared you Banana Hero. It's a real title now.",
+  "Not a single monkey drowned in poop. That's genuinely impressive.",
+];
+const LOSE_LINES=[
+  "The poop has won. It always wins eventually.",
+  "Scientists are baffled by the sheer quantity of monkey poop.",
+  "The colony is fine. You, however, are covered in poop.",
+  "In the end, there was only poop.",
+  "Somewhere a monkey is judging you. They all are.",
+  "The good news: the poop pile is VERY impressive.",
+];
+const BANANA_WARNING_LINES=[
+  "That's a LOT of bananas. The jungle heard about it.",
+  "Word travels fast in the jungle. Especially about bananas.",
+  "You absolute banana hoarder. Animals are coming.",
+  "The banana smell is attracting... things.",
+];
+
+// ═══════════════════════════════════════════════
+// LEADERBOARD (localStorage)
+// ═══════════════════════════════════════════════
+function getScores(){try{return JSON.parse(localStorage.getItem('tmm_scores')||'[]');}catch(e){return[];}}
+function saveScore(entry){
+  let s=getScores();
+  s.push(entry);
+  s.sort((a,b)=>b.monkeys-a.monkeys||b.rounds-a.rounds);
+  s=s.slice(0,10);
+  try{localStorage.setItem('tmm_scores',JSON.stringify(s));}catch(e){}
+}
+const MEDALS=['🥇','🥈','🥉'];
+function renderLeaderboard(){
+  const scores=getScores();
+  const el=document.getElementById('lbContent');
+  if(!scores.length){el.innerHTML='<div class="lb-empty">No scores yet! Go play! 🐒</div>';return;}
+  let html='<table class="lb-table"><tr><th>#</th><th>🐒 Monkeys</th><th>Rounds</th><th>Won?</th></tr>';
+  scores.forEach((s,i)=>{
+    const medal=i<3?MEDALS[i]:`${i+1}.`;
+    html+=`<tr><td><span class="medal">${medal}</span></td><td>${s.monkeys}</td><td>${s.rounds}/15</td><td>${s.won?'🏆 Yes!':'💩 Nope'}</td></tr>`;
+  });
+  html+='</table>';
+  el.innerHTML=html;
+}
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let G={};
+let monkeyData=[];
+let rafId=null,bannerTimer=null,busy=false,chatTick=0;
+let bannerResolve=null; // for click-to-dismiss promise
+
+const WOBBLES=['wobble-a','wobble-b','wobble-c'];
+const EMOJIS=['🐒','🐒','🐵','🐒','🐒','🐵','🐒'];
+
+// 3 row bands — monkeys spread across top, middle, lower tiers
+const ROW_BANDS=[
+  {minFrac:0.15,maxFrac:0.32}, // top row
+  {minFrac:0.38,maxFrac:0.52}, // mid row
+  {minFrac:0.56,maxFrac:0.68}, // lower row (but still above panel)
+];
+
+function sceneH(){return window.innerHeight-148;}
+
+function initGame(){
+  G={round:1,maxRounds:15,monkeys:6,bananaStock:20,poopPile:0,poopLimit:100,
+     peakMonkeys:6,maxPoop:0,gameOver:false,startTime:Date.now()};
+  monkeyData=[];
+  document.getElementById('scene').querySelectorAll('.monkey,.banana-drop,.attacker,.splat').forEach(e=>e.remove());
+  document.querySelectorAll('.poop-flung,.star').forEach(e=>e.remove());
+  document.getElementById('poopStack').innerHTML='';
+  document.getElementById('poopCorner').classList.remove('exploding','wobble');
+  busy=false;chatTick=0;bannerResolve=null;
+  spawnMonkeys(G.monkeys);
+  updateHUD();updatePoopPile(false);
+  if(rafId)cancelAnimationFrame(rafId);
+  loop();
+}
+
+// ═══════════════════════════════════════════════
+// MONKEY PHYSICS — 3 row bands
+// ═══════════════════════════════════════════════
+function spawnMonkey(){
+  const el=document.createElement('div');
+  el.className='monkey '+WOBBLES[Math.floor(Math.random()*3)];
+  el.textContent=EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
+  el.style.fontSize=(2.6+Math.random()*2.4).toFixed(1)+'rem';
+  el.style.position='absolute';
+  const cols=['#1a0a00','#003300','#330000','#001133'];
+  el.style.filter=`drop-shadow(3px 4px 0 ${cols[Math.floor(Math.random()*cols.length)]})`;
+  document.getElementById('scene').appendChild(el);
+  const sh=sceneH();
+  // pick a row band, each monkey stays in its band
+  const band=ROW_BANDS[Math.floor(Math.random()*ROW_BANDS.length)];
+  const bandTopY=sh*band.minFrac;
+  const bandBotY=sh*band.maxFrac;
+  const startY=bandTopY+Math.random()*(bandBotY-bandTopY);
+  const d={
+    el,x:80+Math.random()*(window.innerWidth-160),
+    y:startY,vy:0,vx:(Math.random()-0.5)*3.8,
+    jumpCD:Math.floor(Math.random()*50),stateT:Math.random()*100,flip:1,
+    bandTopY,bandBotY
+  };
+  el.style.setProperty('--mf','scaleX(1)');
+  monkeyData.push(d);
+}
+function spawnMonkeys(n){for(let i=0;i<n;i++)spawnMonkey();}
+function removeMonkey(){if(!monkeyData.length)return;const i=Math.floor(Math.random()*monkeyData.length);monkeyData[i].el.remove();monkeyData.splice(i,1);}
+function syncMonkeys(t){while(monkeyData.length<t)spawnMonkey();while(monkeyData.length>t)removeMonkey();}
+
+function loop(){
+  const sh=sceneH(),W=window.innerWidth;
+  chatTick--;
+  if(chatTick<=0&&monkeyData.length>0){
+    chatTick=50+Math.floor(Math.random()*90);
+    SFX.monkeyChatter();
+    const m=monkeyData[Math.floor(Math.random()*monkeyData.length)];
+    m.el.classList.add('scared');setTimeout(()=>m.el.classList.remove('scared'),900);
+  }
+  monkeyData.forEach(d=>{
+    d.stateT--;d.jumpCD=Math.max(0,d.jumpCD-1);
+    // gravity within band
+    if(d.y<d.bandBotY)d.vy+=0.45;
+    d.x+=d.vx;d.y+=d.vy;
+    if(d.x<55){d.x=55;d.vx=Math.abs(d.vx)*0.85;d.flip=1;}
+    if(d.x>W-55){d.x=W-55;d.vx=-Math.abs(d.vx)*0.85;d.flip=-1;}
+    if(d.y>=d.bandBotY){d.y=d.bandBotY;d.vy=0;}
+    if(d.y<d.bandTopY){d.y=d.bandTopY;d.vy=Math.abs(d.vy)*0.5;}
+    // jump within band
+    if(d.jumpCD===0&&d.y>=d.bandBotY-2&&Math.random()<0.014){
+      d.vy=-(8+Math.random()*6);d.vx=(Math.random()-0.5)*5;d.jumpCD=55;
+    }
+    if(d.stateT<0){d.stateT=40+Math.random()*80;d.vx+=(Math.random()-0.5)*2.5;d.vx=Math.max(-5,Math.min(5,d.vx));}
+    if(d.vx<-0.3&&d.flip!==-1){d.flip=-1;d.el.style.setProperty('--mf','scaleX(-1)');}
+    if(d.vx>0.3&&d.flip!==1){d.flip=1;d.el.style.setProperty('--mf','scaleX(1)');}
+    d.el.style.left=d.x+'px';
+    d.el.style.bottom=(sh-d.y-52)+'px';
+  });
+  rafId=requestAnimationFrame(loop);
+}
+
+// ═══════════════════════════════════════════════
+// POOP PILE — messy heap from bottom up
+// ═══════════════════════════════════════════════
+// Pre-baked heap positions (deterministic mound)
+const HEAP_SLOTS=(()=>{
+  const W=150,H=220;
+  const slots=[];
+  const rows=[
+    {yFrac:0.06,count:5,spread:0.78,sizeRange:[2.5,3.1]},
+    {yFrac:0.20,count:5,spread:0.68,sizeRange:[2.1,2.7]},
+    {yFrac:0.34,count:4,spread:0.56,sizeRange:[1.8,2.3]},
+    {yFrac:0.46,count:4,spread:0.44,sizeRange:[1.5,2.0]},
+    {yFrac:0.57,count:3,spread:0.34,sizeRange:[1.2,1.7]},
+    {yFrac:0.67,count:3,spread:0.26,sizeRange:[1.0,1.4]},
+    {yFrac:0.76,count:2,spread:0.18,sizeRange:[0.8,1.1]},
+    {yFrac:0.84,count:1,spread:0.10,sizeRange:[0.7,0.9]},
+  ];
+  let seed=1337;
+  function sr(){seed=(seed*1664525+1013904223)&0xffffffff;return(seed>>>0)/0xffffffff;}
+  rows.forEach(row=>{
+    for(let i=0;i<row.count;i++){
+      const cx=0.5+(sr()-0.5)*row.spread;
+      const cy=row.yFrac+(sr()-0.5)*0.05;
+      const sz=row.sizeRange[0]+sr()*(row.sizeRange[1]-row.sizeRange[0]);
+      const rot=(sr()-0.5)*44;
+      slots.push({cx,cy,sz,rot});
+    }
+  });
+  return slots;
+})();
+
+function updatePoopPile(sound=true){
+  if(G.poopPile>G.maxPoop)G.maxPoop=G.poopPile;
+  if(sound&&G.poopPile>0)SFX.poopPlop();
+  const stack=document.getElementById('poopStack');
+  stack.innerHTML='';
+  const W=150,H=210;
+  // Number of emojis scales with pile — at 100 poop we show all slots
+  const count=Math.min(HEAP_SLOTS.length,Math.ceil(G.poopPile/100*HEAP_SLOTS.length)+Math.ceil(G.poopPile/8));
+  const clamped=Math.min(count,HEAP_SLOTS.length);
+  // Scale entire pile bigger when critical
+  const scale=G.poopPile>70?1+(G.poopPile-70)/120:1;
+  for(let i=0;i<clamped;i++){
+    const s=HEAP_SLOTS[i];
+    const el=document.createElement('div');
+    el.className='poop-em';
+    el.textContent='💩';
+    el.style.fontSize=(s.sz*scale).toFixed(2)+'rem';
+    // yFrac 0 = bottom, 1 = top of container
+    el.style.left=Math.round(s.cx*W)+'px';
+    el.style.bottom=Math.round(s.cy*H)+'px';
+    el.style.transform=`rotate(${s.rot.toFixed(1)}deg)`;
+    stack.appendChild(el);
+  }
+  const lbl=document.getElementById('poopLabel');
+  lbl.textContent='💩 '+G.poopPile;
+  if(G.poopPile>70){lbl.style.background='#ff3b2f';lbl.style.color='#fff';}
+  else if(G.poopPile>40){lbl.style.background='#ff9800';lbl.style.color='#1a0a00';}
+  else{lbl.style.background='#fffbe6';lbl.style.color='#7b4a1e';}
+  const corner=document.getElementById('poopCorner');
+  corner.classList.remove('wobble');void corner.offsetWidth;corner.classList.add('wobble');
+}
+
+// ═══════════════════════════════════════════════
+// VFX
+// ═══════════════════════════════════════════════
+function spawnStars(x,y,count=6,emojis=['⭐','✨','💥']){
+  for(let i=0;i<count;i++){
+    setTimeout(()=>{
+      const el=document.createElement('div');el.className='star';el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+      el.style.left=x+'px';el.style.top=y+'px';
+      const ang=Math.random()*Math.PI*2,r=60+Math.random()*80;
+      el.style.setProperty('--sx',(Math.cos(ang)*r*0.5)+'px');el.style.setProperty('--sy',(Math.sin(ang)*r*0.5)+'px');
+      el.style.setProperty('--sx2',(Math.cos(ang)*r)+'px');el.style.setProperty('--sy2',(Math.sin(ang)*r)+'px');
+      document.body.appendChild(el);setTimeout(()=>el.remove(),800);
+    },i*50);
+  }
+}
+function rainBananas(count){
+  const n=Math.min(count,34);
+  for(let i=0;i<n;i++){
+    setTimeout(()=>{
+      const el=document.createElement('div');el.className='banana-drop';el.textContent=Math.random()<0.1?'🍌🍌':'🍌';
+      el.style.left=(5+Math.random()*90)+'vw';
+      el.style.setProperty('--fd',(44+Math.random()*38)+'vh');
+      const dur=0.48+Math.random()*0.52;el.style.animationDuration=dur+'s';
+      document.getElementById('scene').appendChild(el);
+      setTimeout(()=>{SFX.bananaLand();const s=document.createElement('div');s.className='splat';s.textContent='💛';s.style.left=el.style.left;s.style.top='62%';document.getElementById('scene').appendChild(s);setTimeout(()=>s.remove(),450);el.remove();},dur*1000);
+    },i*48);
+  }
+}
+function flingPoop(count){
+  SFX.poopFling();
+  const rect=document.getElementById('poopCorner').getBoundingClientRect();
+  const cx=rect.left+rect.width/2,cy=rect.top+rect.height*0.4;
+  for(let i=0;i<Math.min(count,12);i++){
+    setTimeout(()=>{
+      const el=document.createElement('div');el.className='poop-flung';el.textContent='💩';
+      el.style.left=cx+'px';el.style.top=cy+'px';
+      el.style.setProperty('--fx',(100+Math.random()*400)+'px');
+      el.style.setProperty('--fy',-(40+Math.random()*200)+'px');
+      document.body.appendChild(el);setTimeout(()=>el.remove(),950);
+      if(monkeyData.length){const m=monkeyData[Math.floor(Math.random()*monkeyData.length)];m.el.classList.add('flinging');setTimeout(()=>m.el.classList.remove('flinging'),420);}
+    },i*75);
+  }
+}
+function spawnAttacker(emoji,fromRight=false){
+  return new Promise(res=>{
+    const el=document.createElement('div');el.className='attacker';el.textContent=emoji;
+    const sh=sceneH();el.style.bottom=(sh*0.38+Math.random()*sh*0.25)+'px';
+    el.style.setProperty('--dur','1.8s');
+    if(fromRight){el.style.right='0';el.style.left='auto';el.style.transform='scaleX(-1)';el.style.setProperty('--mx','-38vw');el.style.setProperty('--cx','-55vw');el.style.setProperty('--mx2','-72vw');el.style.setProperty('--ex','-115vw');}
+    else{el.style.left='0';el.style.setProperty('--mx','38vw');el.style.setProperty('--cx','55vw');el.style.setProperty('--mx2','72vw');el.style.setProperty('--ex','115vw');}
+    document.getElementById('scene').appendChild(el);
+    setTimeout(()=>{el.remove();res();},1900);
+  });
+}
+function shake(){document.body.classList.remove('shaking');void document.body.offsetWidth;document.body.classList.add('shaking');setTimeout(()=>document.body.classList.remove('shaking'),450);}
+
+// ═══════════════════════════════════════════════
+// BANNER — click to dismiss
+// ═══════════════════════════════════════════════
+function showBanner(emoji,text){
+  return new Promise(res=>{
+    bannerResolve=res;
+    document.getElementById('bannerEmoji').textContent=emoji;
+    document.getElementById('bannerText').textContent=text;
+    const b=document.getElementById('eventBanner');
+    b.classList.remove('show');void b.offsetWidth;b.classList.add('show');
+  });
+}
+function dismissBanner(){
+  const b=document.getElementById('eventBanner');
+  b.classList.remove('show');
+  if(bannerResolve){const r=bannerResolve;bannerResolve=null;r();}
+}
+
+function updateHUD(){
+  document.getElementById('hudMonkeys').textContent=G.monkeys;
+  document.getElementById('hudRound').textContent=G.round;
+  document.getElementById('hudBananas').textContent=G.bananaStock;
+  document.getElementById('monkeyPill').className='hud-pill'+(G.monkeys<=2?' danger':'');
+  document.getElementById('bananaPill').className='hud-pill'+(G.bananaStock<G.monkeys?' danger':'');
+}
+
+// ═══════════════════════════════════════════════
+// SLIDER
+// ═══════════════════════════════════════════════
+document.getElementById('bananaSlider').addEventListener('input',function(){
+  const v=parseInt(this.value);
+  document.getElementById('sliderVal').textContent=v;
+  const need=G.monkeys,have=G.bananaStock;
+  let mood='bananas per shipment';
+  if(v===0)mood='ZERO BANANAS?! 😱';
+  else if(v+have<need*0.5)mood='way too few... 😢';
+  else if(v+have<need)mood='a bit short 😬';
+  else if(v+have>need*3)mood='absolute CHAOS incoming 🤯';
+  else if(v+have>need*2)mood='WAY too many! 😅';
+  else mood='looking good! 😊';
+  document.getElementById('sliderMood').textContent=mood;
+});
+
+// ═══════════════════════════════════════════════
+// THREATS
+// ═══════════════════════════════════════════════
+const THREATS=[
+  {e:'🦜',p:4, s:5, m:'Sneaky Toucan incoming!'},
+  {e:'🦝',p:7, s:8, m:'Raccoon raid!!'},
+  {e:'🦍',p:16,s:20,m:'GORILLA ATTACK!!',sfx:'gorilla'},
+  {e:'🐦',p:9, s:11,m:'Parrot gang swooped in!'},
+  {e:'🐊',p:11,s:13,m:'Croc crept out of the river!'},
+  {e:'🦏',p:18,s:22,m:'RHINO CHARGING!!',sfx:'gorilla'},
+  {e:'🐘',p:14,s:16,m:'Elephant stampede!!',sfx:'gorilla'},
+  {e:'🦓',p:6, s:7, m:'A ZEBRA?! In the jungle?!'},
+  {e:'🦅',p:8, s:10,m:'Eagle dive-bombing the bananas!'},
+  {e:'🐍',p:5, s:6, m:'Snake slithered into the stash!'},
+  {e:'🦛',p:20,s:25,m:'HIPPO RAMPAGE!!',sfx:'gorilla'},
+  {e:'🐆',p:12,s:14,m:'Leopard spotted — and it spotted YOU!'},
+  {e:'🦩',p:5, s:6, m:'A flamingo stole a banana??'},
+  {e:'🦧',p:10,s:12,m:'Orangutan snuck in!'},
+  {e:'🦣',p:22,s:28,m:'MAMMOTH!! WAIT WHAT??',sfx:'gorilla'},
+  {e:'🐻',p:13,s:15,m:'Bear! Bears love bananas apparently.'},
+  {e:'🦊',p:6, s:8, m:'A fox is being very sneaky!'},
+  {e:'🦒',p:8, s:10,m:'Giraffe! Just... reaching right in.'},
+];
+function getThreats(){
+  if(G.round<4)return THREATS.filter(t=>t.p<=9);
+  if(G.round<8)return THREATS.filter(t=>t.p<=16);
+  return THREATS;
+}
+
+// ═══════════════════════════════════════════════
+// EVENTS — more, funnier, weighted toward relief
+// ═══════════════════════════════════════════════
+const EVENTS=[
+  // ── POOP-CLEARING (good) ──
+  {w:3,fn:g=>{const w=Math.floor(g.poopPile*0.4+5);g.poopPile=Math.max(0,g.poopPile-w);SFX.storm();shake();return['⛈️',`Big storm! Washed away ${w} poop!\nThe monkeys are soggy but grateful.`];}},
+  {w:3,fn:g=>{const c=Math.ceil(g.monkeys*0.75);g.poopPile=Math.max(0,g.poopPile-c);SFX.rainbow();spawnStars(window.innerWidth/2,window.innerHeight/3,10,['⭐','🌟','✨','💛']);return['🌈',`Rainbow day! Monkeys cleaned up ${c} poop!\nEveryone's suspiciously cheerful.`];}},
+  {w:2,fn:g=>{const c=Math.ceil(g.monkeys*0.6);g.poopPile=Math.max(0,g.poopPile-c);SFX.storm();return['💨',`Strong wind! Blew away ${c} poop!\nSmells better. Temporarily.`];}},
+  {w:2,fn:g=>{g.bananaStock+=12;g.poopPile=Math.max(0,g.poopPile-8);SFX.rainbow();return['🎪',`Travelling circus arrived!\n+12 bananas and they cleaned up too!\nThe monkeys loved the clowns.`];}},
+  {w:2,fn:g=>{const c=Math.ceil(g.poopPile*0.25)+3;g.poopPile=Math.max(0,g.poopPile-c);SFX.mushroom();return['🌧️',`Tropical downpour!\nWashed away ${c} poop.\nAlso, the monkeys are clean now.`];}},
+  // ── BANANA EVENTS ──
+  {w:2,fn:g=>{const b=Math.ceil(g.monkeys*0.5)+5;g.bananaStock+=b;SFX.mushroom();return['🍄',`Magic mushrooms!\nFound ${b} extra bananas.\n(Don't ask where.)`];}},
+  {w:2,fn:g=>{const b=8;g.bananaStock+=b;SFX.mushroom();return['🚂',`Banana train! Extra shipment arrived!\n+${b} free bananas!\nChoo choo!`];}},
+  // ── BAD EVENTS (fewer, less brutal) ──
+  {w:1,fn:g=>{const add=Math.floor(g.poopPile*0.35+5);g.poopPile=Math.min(g.poopLimit-1,g.poopPile+add);SFX.flood();shake();return['🌊',`Flash flood!\nAll that poop swirled together.\n+${add} extra poop. Gross.`];}},
+  {w:1,fn:g=>{const e=Math.ceil(g.monkeys*0.6);g.bananaStock=Math.max(0,g.bananaStock-e);SFX.heatwave();return['🌡️',`Heatwave! Monkeys ate ${e} extra bananas!\nThey were very dramatic about it.`];}},
+  // ── BANANA OVERSTOCK CONSEQUENCES ──
+  {w:1,fn:g=>{if(g.bananaStock>30){const rot=Math.ceil(g.bananaStock*0.3);g.bananaStock=Math.max(0,g.bananaStock-rot);SFX.poopPlop();return['🤢',`${rot} bananas rotted in storage!\nSmells almost as bad as the poop.\nMaybe ship fewer next time?`];}else{const b=5;g.bananaStock+=b;SFX.mushroom();return['🐛',`Monkeys found some hidden bananas!\n+${b} bananas!`];}}},
+  // ── SILLY EVENTS ──
+  {w:1,fn:g=>{const m=Math.min(3,Math.floor(g.monkeys*0.2));g.monkeys=Math.max(1,g.monkeys-m);g.poopPile=Math.max(0,g.poopPile-m*3);SFX.monkeyLeave();return['✈️',`${m} monkeys went on holiday!\nThey took their poop with them.\nRude, but helpful.`];}},
+  {w:1,fn:g=>{g.poopPile=Math.max(0,g.poopPile-10);SFX.rainbow();return['💅',`A very fancy monkey organised the colony.\nEveryone tidied up.\n-10 poop. Remarkable.`];}},
+  {w:1,fn:g=>{const extra=Math.ceil(g.monkeys*0.3);g.poopPile+=extra;SFX.poopPlop();return['🌮',`Taco Tuesday! Monkeys ate weird food.\nDouble poop situation. +${extra} 💩\nNo one is happy.`];}},
+];
+
+function pickEvent(){
+  const total=EVENTS.reduce((s,e)=>s+e.w,0);
+  let r=Math.random()*total;
+  for(const e of EVENTS){r-=e.w;if(r<=0)return e;}
+  return EVENTS[0];
+}
+
+// ═══════════════════════════════════════════════
+// EXCESS BANANA CONSEQUENCES
+// ═══════════════════════════════════════════════
+async function checkBananaOverstock(){
+  const excess=G.bananaStock-G.monkeys*2; // more than 2x what monkeys need = overstock
+  if(excess<=0)return;
+
+  // Extra animal attracted by the smell
+  if(Math.random()<Math.min(0.7,excess/30)){
+    const pool=getThreats();
+    const t=pool[Math.floor(Math.random()*pool.length)];
+    if(t.sfx==='gorilla')SFX.gorilla();else SFX.attack();
+    spawnAttacker(t.e,Math.random()>0.5);
+    const warn=BANANA_WARNING_LINES[Math.floor(Math.random()*BANANA_WARNING_LINES.length)];
+    await showBanner('👃',`${warn}\n${t.e} ${t.m}`);
+    await wait(400);
+    if(G.poopPile>=t.p){
+      G.poopPile-=t.p;flingPoop(Math.ceil(t.p/2));
+      await showBanner(t.e,`Repelled! But the smell lingers... 😅`);
+      SFX.repelled();updatePoopPile(false);
+    } else {
+      G.bananaStock=Math.max(0,G.bananaStock-t.s);shake();
+      await showBanner(t.e,`Not enough poop! -${t.s}🍌 stolen!\nShould've sent fewer bananas.`);
+      SFX.stolen();
+      monkeyData.forEach(m=>{m.el.classList.add('scared');setTimeout(()=>m.el.classList.remove('scared'),900);});
+    }
+    await wait(300);
+  }
+
+  // Double poop from overeating
+  if(excess>20&&Math.random()<0.4){
+    const extra=Math.ceil(excess*0.25);
+    G.poopPile=Math.min(G.poopLimit-1,G.poopPile+extra);
+    SFX.poopPlop();
+    await showBanner('💩',`Monkeys overate! All those extra bananas...\n+${extra} bonus poop. Yikes.`);
+    updatePoopPile(false);
+  }
+}
+
+// ═══════════════════════════════════════════════
+// APPLY THREAT
+// ═══════════════════════════════════════════════
+async function applyThreat(){
+  const pool=getThreats();
+  const t=pool[Math.floor(Math.random()*pool.length)];
+  if(t.sfx==='gorilla')SFX.gorilla();else SFX.attack();
+  spawnAttacker(t.e,Math.random()>0.5);
+  await wait(500);
+  if(G.poopPile>=t.p){
+    G.poopPile-=t.p;flingPoop(Math.ceil(t.p/2));
+    await showBanner(t.e,`${t.m}\nMONKEYS REPELLED IT! 🎉\n(-${t.p} 💩)`);
+    SFX.repelled();SFX.monkeyExcited();
+    spawnStars(window.innerWidth*0.65,window.innerHeight*0.4,8,['💥','⭐','✨','🎉']);
+    updatePoopPile(false);
+  } else {
+    G.bananaStock=Math.max(0,G.bananaStock-t.s);shake();
+    await showBanner(t.e,`${t.m}\nNot enough poop to fling!\n-${t.s} 🍌 stolen!`);
+    SFX.stolen();
+    monkeyData.forEach(m=>{m.el.classList.add('scared');setTimeout(()=>m.el.classList.remove('scared'),900);});
+  }
+}
+
+// ═══════════════════════════════════════════════
+// MAIN ROUND
+// ═══════════════════════════════════════════════
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+
+async function shipBananas(){
+  if(G.gameOver||busy)return;
+  busy=true;getAC();
+  document.getElementById('shipBtn').disabled=true;
+
+  const sent=parseInt(document.getElementById('bananaSlider').value);
+  G.bananaStock+=sent;
+  rainBananas(sent);
+  await wait(900);
+
+  // Eat
+  const eaten=Math.min(G.bananaStock,G.monkeys);
+  G.bananaStock-=eaten;
+
+  // Poop + 30% natural decay
+  const rawPoop=G.monkeys;
+  const decay=Math.floor(G.poopPile*0.30);
+  G.poopPile=Math.max(0,G.poopPile-decay+rawPoop);
+  updatePoopPile(true);
+  await wait(400);
+
+  // Population — slower growth, need 6 bananas per monkey
+  let delta=0;
+  if(eaten>=G.monkeys){
+    delta=Math.min(4,Math.floor(G.bananaStock/6));
+  } else {
+    const hunger=G.monkeys-eaten;
+    if(hunger>G.monkeys*0.4)delta=-Math.ceil(hunger*0.5);
+  }
+  G.monkeys=Math.max(1,G.monkeys+delta);
+  if(G.monkeys>G.peakMonkeys)G.peakMonkeys=G.monkeys;
+  syncMonkeys(G.monkeys);
+
+  if(delta>0){SFX.babyMonkey();spawnStars(window.innerWidth/2,window.innerHeight*0.5,6,['🐒','⭐','💛']);await showBanner('🐒',`+${delta} baby monkeys!\nNow ${G.monkeys} in the colony! 🎉`);}
+  else if(delta<0){SFX.monkeyLeave();await showBanner('😢',`${Math.abs(delta)} monkeys wandered off...\nNow ${G.monkeys} remain.`);}
+  else{SFX.monkeyChatter();await showBanner('😌','Colony holding steady!\nNo drama. For once.');}
+
+  // Check banana overstock consequences
+  await checkBananaOverstock();
+
+  // Main event roll
+  const roll=Math.random();
+  const tc=0.28+G.round*0.018; // 30%→55% over game
+  const ec=0.32;
+
+  if(roll<tc){
+    await applyThreat();
+    // Double attack late game
+    if(G.round>=8&&Math.random()<0.36){
+      await wait(400);
+      await applyThreat();
+    }
+  } else if(roll<tc+ec){
+    const ev=pickEvent();
+    const [emoji,text]=ev.fn(G);
+    await showBanner(emoji,text);
+    updatePoopPile(false);
+  }
+
+  updateHUD();
+
+  // Lose?
+  if(G.poopPile>=G.poopLimit){
+    SFX.poopExplode();
+    document.getElementById('poopCorner').classList.add('exploding');
+    shake();shake();
+    spawnStars(50,window.innerHeight*0.5,14,['💩','💩','😱','😭']);
+    await wait(1000);
+    endGame(false);return;
+  }
+
+  G.round++;
+  if(G.round>G.maxRounds){SFX.win();spawnStars(window.innerWidth/2,window.innerHeight/2,16,['🏆','🌟','🎉','🍌','🐒']);await wait(600);endGame(true);return;}
+
+  updateHUD();
+  busy=false;
+  document.getElementById('shipBtn').disabled=false;
+}
+
+// ═══════════════════════════════════════════════
+// END GAME
+// ═══════════════════════════════════════════════
+function endGame(won){
+  G.gameOver=true;
+  cancelAnimationFrame(rafId);
+  const rounds=G.round-1+(won?1:0);
+  const quips=won?WIN_LINES:LOSE_LINES;
+  const quip=quips[Math.floor(Math.random()*quips.length)];
+  // Save score
+  saveScore({monkeys:G.peakMonkeys,rounds:Math.min(rounds,15),won,date:Date.now()});
+  document.getElementById('overEmoji').textContent=won?'🏆':'💩';
+  document.getElementById('overTitle').textContent=won?'YOU DID IT!':'POOP FLOOD!';
+  document.getElementById('overMsg').textContent=quip;
+  document.getElementById('overR').textContent=Math.min(rounds,15);
+  document.getElementById('overM').textContent=G.peakMonkeys;
+  document.getElementById('overP').textContent=G.maxPoop;
+  document.getElementById('gameOverScreen').classList.add('show');
+}
+
+// ═══════════════════════════════════════════════
+// TITLE / SCREENS
+// ═══════════════════════════════════════════════
+function startGame(){
+  getAC();
+  document.getElementById('titleScreen').classList.remove('show');
+  document.getElementById('howToPlay').classList.remove('show');
+  initGame();
+}
+function showHowToPlay(){
+  document.getElementById('titleScreen').classList.remove('show');
+  document.getElementById('howToPlay').classList.add('show');
+}
+function hideHowToPlay(){
+  document.getElementById('howToPlay').classList.remove('show');
+  document.getElementById('titleScreen').classList.add('show');
+}
+function showLeaderboard(){
+  renderLeaderboard();
+  document.getElementById('titleScreen').classList.remove('show');
+  document.getElementById('leaderboard').classList.add('show');
+}
+function hideLeaderboard(){
+  document.getElementById('leaderboard').classList.remove('show');
+  document.getElementById('titleScreen').classList.add('show');
+}
+function showLeaderboardFromEnd(){
+  renderLeaderboard();
+  document.getElementById('leaderboard').classList.add('show');
+}
+function resetGame(){
+  document.getElementById('gameOverScreen').classList.remove('show');
+  document.getElementById('leaderboard').classList.remove('show');
+  document.getElementById('bananaSlider').value=15;
+  document.getElementById('sliderVal').textContent='15';
+  document.getElementById('sliderMood').textContent='bananas per shipment';
+  document.getElementById('eventBanner').classList.remove('show');
+  // show title
+  document.getElementById('titleScreen').classList.add('show');
+  document.getElementById('titleTagline').textContent=pick(TITLE_LINES);
+}
+
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+
+// ═══════════════════════════════════════════════
+// BOOT
+// ═══════════════════════════════════════════════
+document.getElementById('titleTagline').textContent=pick(TITLE_LINES);
+// Start physics loop quietly behind title
+initGame();
+// Hide game elements until play pressed
+document.getElementById('hud').style.opacity='0';
+document.getElementById('panel').style.opacity='0';
+document.getElementById('poopCorner').style.opacity='0';
+
+function startGame(){
+  getAC();
+  document.getElementById('titleScreen').classList.remove('show');
+  document.getElementById('howToPlay').classList.remove('show');
+  document.getElementById('hud').style.opacity='1';
+  document.getElementById('panel').style.opacity='1';
+  document.getElementById('poopCorner').style.opacity='1';
+  initGame();
+}
+</script>
 </body>
 </html>
