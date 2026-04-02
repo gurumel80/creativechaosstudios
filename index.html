@@ -148,6 +148,43 @@
     }
 
     /* ── SCROLL ROW ──────────────────────────────── */
+    .scroll-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .scroll-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      background: var(--purple-bright);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 20;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      transition: background 0.2s, transform 0.1s, opacity 0.3s;
+      font-size: 1.2rem;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .scroll-container:hover .scroll-btn.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .scroll-btn:hover { background: var(--purple-light); }
+    .scroll-btn:active { transform: translateY(-50%) scale(0.9); }
+    .scroll-btn.left { left: 10px; }
+    .scroll-btn.right { right: 10px; }
+
     .scroll-row {
       display: flex;
       gap: 20px;
@@ -155,11 +192,10 @@
       padding: 8px 28px 24px;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
 
-    .scroll-row::-webkit-scrollbar { height: 6px; }
-    .scroll-row::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 3px; }
-    .scroll-row::-webkit-scrollbar-thumb { background: var(--purple-light); border-radius: 3px; }
+    .scroll-row::-webkit-scrollbar { display: none; }
 
     /* ── GAME CARD ───────────────────────────────── */
     .game-card {
@@ -361,104 +397,10 @@
     <span class="section-badge">Editor's Pick</span>
   </div>
   <p class="section-desc">Our favourite picks — the best of what we've made so far.</p>
-
-  <div class="scroll-row">
-
-    <!-- Chronicle -->
-    <div class="game-card" style="cursor:pointer;" onclick="window.open('https://chronicle-lyart.vercel.app','_blank')">
-      <div class="card-img-wrap">
-        <img src="https://raw.githubusercontent.com/gurumel80/Chronicle/main/screenshot.jpg"
-             alt="Chronicle"
-             onerror="this.style.display='none'; this.parentElement.querySelector('.card-img-placeholder').style.display='flex'">
-        <div class="card-img-placeholder" style="display:none">📖</div>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Chronicle</div>
-        <p class="card-desc">An epic world-building adventure game. Explore, discover, and shape the story.</p>
-        <div class="card-tags">
-          <span class="tag browser">Browser</span>
-          <span class="tag free">Free</span>
-        </div>
-        <a class="card-play-btn" href="https://chronicle-lyart.vercel.app" target="_blank"><span class="play-arrow"></span> Play Now</a>
-      </div>
-    </div>
-
-    <!-- Too Many Monkeys -->
-    <div class="game-card" style="cursor:pointer;" onclick="window.open('https://too-many-monkeys.vercel.app','_blank')">
-      <div class="card-img-wrap">
-        <img src="https://raw.githubusercontent.com/gurumel80/TooManyMonkeys/main/screenshot.jpg"
-             alt="Too Many Monkeys"
-             onerror="this.style.display='none'; this.parentElement.querySelector('.card-img-placeholder').style.display='flex'">
-        <div class="card-img-placeholder" style="display:none">🐒</div>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Too Many Monkeys</div>
-        <p class="card-desc">A chaotic resource-management game. Can you keep the monkey colony under control?</p>
-        <div class="card-tags">
-          <span class="tag browser">Browser</span>
-          <span class="tag free">Free</span>
-        </div>
-        <a class="card-play-btn" href="https://too-many-monkeys.vercel.app" target="_blank"><span class="play-arrow"></span> Play Now</a>
-      </div>
-    </div>
-
-    <!-- Star Soup -->
-    <div class="game-card" style="cursor:pointer;" onclick="window.open('https://star-soup.vercel.app','_blank')">
-      <div class="card-img-wrap">
-        <img src="https://raw.githubusercontent.com/gurumel80/Star-Soup/main/screenshot.jpg"
-             alt="Star Soup"
-             onerror="this.style.display='none'; this.parentElement.querySelector('.card-img-placeholder').style.display='flex'">
-        <div class="card-img-placeholder" style="display:none">⭐</div>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Star Soup</div>
-        <p class="card-desc">Help the wizard owl brew magical number soups! Number bonds to 10 with a twist.</p>
-        <div class="card-tags">
-          <span class="tag eyfs">EYFS</span>
-          <span class="tag browser">Browser</span>
-          <span class="tag free">Free</span>
-        </div>
-        <a class="card-play-btn" href="https://star-soup.vercel.app" target="_blank"><span class="play-arrow"></span> Play Now</a>
-      </div>
-    </div>
-
-    <!-- Pocket Altar -->
-    <div class="game-card" style="cursor:pointer;" onclick="window.open('https://pocket-altar.vercel.app','_blank')">
-      <div class="card-img-wrap">
-        <img src="https://raw.githubusercontent.com/gurumel80/Pocket-Altar/main/screenshot.jpg"
-             alt="Pocket Altar"
-             onerror="this.style.display='none'; this.parentElement.querySelector('.card-img-placeholder').style.display='flex'">
-        <div class="card-img-placeholder" style="display:none">🕯️</div>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Pocket Altar</div>
-        <p class="card-desc">A personal digital altar for reflection and intention-setting. Beautiful and intimate.</p>
-        <div class="card-tags">
-          <span class="tag browser">Browser</span>
-        </div>
-        <a class="card-play-btn" href="https://pocket-altar.vercel.app" target="_blank"><span class="play-arrow"></span> Open</a>
-      </div>
-    </div>
-
-    <!-- Letter Storm -->
-    <div class="game-card" style="cursor:pointer;" onclick="window.open('https://letter-storm.vercel.app','_blank')">
-      <div class="card-img-wrap">
-        <img src="https://raw.githubusercontent.com/gurumel80/Letter-Storm/main/screenshot.jpg"
-             alt="Letter Storm"
-             onerror="this.style.display='none'; this.parentElement.querySelector('.card-img-placeholder').style.display='flex'">
-        <div class="card-img-placeholder" style="display:none">⚡</div>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Letter Storm</div>
-        <p class="card-desc">Words flying at you from all directions. Type fast, think faster.</p>
-        <div class="card-tags">
-          <span class="tag browser">Browser</span>
-          <span class="tag free">Free</span>
-        </div>
-        <a class="card-play-btn" href="https://letter-storm.vercel.app" target="_blank"><span class="play-arrow"></span> Play Now</a>
-      </div>
-    </div>
-
+  <div class="scroll-container">
+    <button class="scroll-btn left">←</button>
+    <div class="scroll-row" id="row-featured"></div>
+    <button class="scroll-btn right">→</button>
   </div>
 </div>
 
@@ -471,47 +413,10 @@
     <span class="section-badge" style="background:#a8ff78; color: var(--purple-deep);">Play</span>
   </div>
   <p class="section-desc">Pure fun — games for everyone to pick up and play.</p>
-
-  <div class="scroll-row">
-
-    <!-- Chronicle -->
-    <div class="game-card" style="cursor:pointer;" onclick="window.open('https://chronicle-lyart.vercel.app','_blank')">
-      <div class="card-img-wrap">
-        <img src="https://raw.githubusercontent.com/gurumel80/Chronicle/main/screenshot.jpg"
-             alt="Chronicle"
-             onerror="this.style.display='none'; this.parentElement.querySelector('.card-img-placeholder').style.display='flex'">
-        <div class="card-img-placeholder" style="display:none">📖</div>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Chronicle</div>
-        <p class="card-desc">An epic world-building adventure game. Explore, discover, and shape the story.</p>
-        <div class="card-tags">
-          <span class="tag browser">Browser</span>
-          <span class="tag free">Free</span>
-        </div>
-        <a class="card-play-btn" href="https://chronicle-lyart.vercel.app" target="_blank"><span class="play-arrow"></span> Play Now</a>
-      </div>
-    </div>
-
-    <!-- Too Many Monkeys -->
-    <div class="game-card" style="cursor:pointer;" onclick="window.open('https://too-many-monkeys.vercel.app','_blank')">
-      <div class="card-img-wrap">
-        <img src="https://raw.githubusercontent.com/gurumel80/TooManyMonkeys/main/screenshot.jpg"
-             alt="Too Many Monkeys"
-             onerror="this.style.display='none'; this.parentElement.querySelector('.card-img-placeholder').style.display='flex'">
-        <div class="card-img-placeholder" style="display:none">🐒</div>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Too Many Monkeys</div>
-        <p class="card-desc">A chaotic resource-management game. Can you keep the monkey colony under control?</p>
-        <div class="card-tags">
-          <span class="tag browser">Browser</span>
-          <span class="tag free">Free</span>
-        </div>
-        <a class="card-play-btn" href="https://too-many-monkeys.vercel.app" target="_blank"><span class="play-arrow"></span> Play Now</a>
-      </div>
-    </div>
-
+  <div class="scroll-container">
+    <button class="scroll-btn left">←</button>
+    <div class="scroll-row" id="row-games"></div>
+    <button class="scroll-btn right">→</button>
   </div>
 </div>
 
@@ -524,109 +429,10 @@
     <span class="section-badge edu">EYFS &amp; KS1</span>
   </div>
   <p class="section-desc">Games designed for the classroom — built for touchscreen whiteboards, early years learners, and non-readers.</p>
-
-  <div class="scroll-row">
-
-    <!-- Star Soup -->
-    <div class="game-card" style="cursor:pointer;" onclick="window.open('https://star-soup.vercel.app','_blank')">
-      <div class="card-img-wrap">
-        <img src="https://raw.githubusercontent.com/gurumel80/Star-Soup/main/screenshot.jpg"
-             alt="Star Soup"
-             onerror="this.style.display='none'; this.parentElement.querySelector('.card-img-placeholder').style.display='flex'">
-        <div class="card-img-placeholder" style="display:none">⭐</div>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Star Soup</div>
-        <p class="card-desc">Help the wizard owl brew magical number soups! A gentle introduction to number bonds to 10.</p>
-        <div class="card-tags">
-          <span class="tag eyfs">EYFS</span>
-          <span class="tag browser">Browser</span>
-          <span class="tag free">Free</span>
-        </div>
-        <a class="card-play-btn" href="https://star-soup.vercel.app" target="_blank"><span class="play-arrow"></span> Play Now</a>
-      </div>
-    </div>
-
-    <!-- Number Bots -->
-    <div class="game-card" style="cursor:pointer;" onclick="window.open('https://number-bots.vercel.app','_blank')">
-      <div class="card-img-wrap">
-        <img src="https://raw.githubusercontent.com/gurumel80/Number-Bots/main/screenshot.jpg"
-             alt="Number Bots"
-             onerror="this.style.display='none'; this.parentElement.querySelector('.card-img-placeholder').style.display='flex'">
-        <div class="card-img-placeholder" style="display:none">🤖</div>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Number Bots</div>
-        <p class="card-desc">Numicon-powered number bond practice with dancing robot friends. Fun, visual, and effective.</p>
-        <div class="card-tags">
-          <span class="tag eyfs">EYFS</span>
-          <span class="tag browser">Browser</span>
-          <span class="tag free">Free</span>
-        </div>
-        <a class="card-play-btn" href="https://number-bots.vercel.app" target="_blank"><span class="play-arrow"></span> Play Now</a>
-      </div>
-    </div>
-
-    <!-- Letter Storm -->
-    <div class="game-card" style="cursor:pointer;" onclick="window.open('https://letter-storm.vercel.app','_blank')">
-      <div class="card-img-wrap">
-        <img src="https://raw.githubusercontent.com/gurumel80/Letter-Storm/main/screenshot.jpg"
-             alt="Letter Storm"
-             onerror="this.style.display='none'; this.parentElement.querySelector('.card-img-placeholder').style.display='flex'">
-        <div class="card-img-placeholder" style="display:none">⚡</div>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Letter Storm</div>
-        <p class="card-desc">Practise letter recognition under pressure — great for phonics warm-ups and KS1.</p>
-        <div class="card-tags">
-          <span class="tag eyfs">KS1</span>
-          <span class="tag browser">Browser</span>
-          <span class="tag free">Free</span>
-        </div>
-        <a class="card-play-btn" href="https://letter-storm.vercel.app" target="_blank"><span class="play-arrow"></span> Play Now</a>
-      </div>
-    </div>
-
-    <!-- Neon Alley -->
-    <div class="game-card" style="cursor:pointer;" onclick="window.open('https://bowling-one.vercel.app','_blank')">
-      <div class="card-img-wrap">
-        <img src="https://raw.githubusercontent.com/gurumel80/Bowling/main/screenshot.jpg"
-             alt="Neon Alley"
-             onerror="this.style.display='none'; this.parentElement.querySelector('.card-img-placeholder').style.display='flex'">
-        <div class="card-img-placeholder" style="display:none">🎳</div>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Neon Alley</div>
-        <p class="card-desc">A glowing neon bowling game — roll, aim, and strike! Great for turn-taking and coordination.</p>
-        <div class="card-tags">
-          <span class="tag eyfs">EYFS</span>
-          <span class="tag browser">Browser</span>
-          <span class="tag free">Free</span>
-        </div>
-        <a class="card-play-btn" href="https://bowling-one.vercel.app" target="_blank"><span class="play-arrow"></span> Play Now</a>
-      </div>
-    </div>
-
-    <!-- Wheel of Fortune -->
-    <div class="game-card" style="cursor:pointer;" onclick="window.open('https://wheel-ten-wheat.vercel.app','_blank')">
-      <div class="card-img-wrap">
-        <img src="https://raw.githubusercontent.com/gurumel80/wheel/main/screenshot.jpg"
-             alt="Wheel of Fortune"
-             onerror="this.style.display='none'; this.parentElement.querySelector('.card-img-placeholder').style.display='flex'">
-        <div class="card-img-placeholder" style="display:none">🎡</div>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Wheel of Fortune</div>
-        <p class="card-desc">A customisable spinning wheel — perfect for classroom decisions, rewards, and random picks.</p>
-        <div class="card-tags">
-          <span class="tag eyfs">EYFS</span>
-          <span class="tag browser">Browser</span>
-          <span class="tag free">Free</span>
-        </div>
-        <a class="card-play-btn" href="https://wheel-ten-wheat.vercel.app" target="_blank"><span class="play-arrow"></span> Play Now</a>
-      </div>
-    </div>
-
+  <div class="scroll-container">
+    <button class="scroll-btn left">←</button>
+    <div class="scroll-row" id="row-educational"></div>
+    <button class="scroll-btn right">→</button>
   </div>
 </div>
 
@@ -639,46 +445,10 @@
     <span class="section-badge apps">Creative</span>
   </div>
   <p class="section-desc">Experimental apps, creative tools, and games that don't fit neatly in a box.</p>
-
-  <div class="scroll-row">
-
-    <!-- Pocket Altar -->
-    <div class="game-card" style="cursor:pointer;" onclick="window.open('https://pocket-altar.vercel.app','_blank')">
-      <div class="card-img-wrap">
-        <img src="https://raw.githubusercontent.com/gurumel80/Pocket-Altar/main/screenshot.jpg"
-             alt="Pocket Altar"
-             onerror="this.style.display='none'; this.parentElement.querySelector('.card-img-placeholder').style.display='flex'">
-        <div class="card-img-placeholder" style="display:none">🕯️</div>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Pocket Altar</div>
-        <p class="card-desc">A beautiful browser-based digital altar. Set intentions, light candles, and find stillness.</p>
-        <div class="card-tags">
-          <span class="tag browser">Browser</span>
-        </div>
-        <a class="card-play-btn" href="https://pocket-altar.vercel.app" target="_blank"><span class="play-arrow"></span> Open</a>
-      </div>
-    </div>
-
-    <!-- Wheel of Fortune -->
-    <div class="game-card" style="cursor:pointer;" onclick="window.open('https://wheel-ten-wheat.vercel.app','_blank')">
-      <div class="card-img-wrap">
-        <img src="https://raw.githubusercontent.com/gurumel80/wheel/main/screenshot.jpg"
-             alt="Wheel of Fortune"
-             onerror="this.style.display='none'; this.parentElement.querySelector('.card-img-placeholder').style.display='flex'">
-        <div class="card-img-placeholder" style="display:none">🎡</div>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Wheel of Fortune</div>
-        <p class="card-desc">A customisable spinning wheel — perfect for classroom decisions, rewards, and random picks.</p>
-        <div class="card-tags">
-          <span class="tag browser">Browser</span>
-          <span class="tag free">Free</span>
-        </div>
-        <a class="card-play-btn" href="https://wheel-ten-wheat.vercel.app" target="_blank"><span class="play-arrow"></span> Open</a>
-      </div>
-    </div>
-
+  <div class="scroll-container">
+    <button class="scroll-btn left">←</button>
+    <div class="scroll-row" id="row-apps"></div>
+    <button class="scroll-btn right">→</button>
   </div>
 </div>
 
@@ -686,6 +456,165 @@
 <footer>
   <p>&copy; 2026 Creative Chaos Studios &nbsp;|&nbsp; Made with <span>♥</span> and chaos</p>
 </footer>
+
+<script>
+const ITEMS = [
+  {
+    title: 'Fruit Stack',
+    url: 'https://fruit-stack-two.vercel.app',
+    img: 'https://raw.githubusercontent.com/gurumel80/Fruit-Stack/main/screenshot.jpg',
+    icon: '🍎',
+    desc: 'A juicy physics-based stacking challenge. How high can you pile the fruit before it topples?',
+    tags: [{text:'Browser', class:'browser'}, {text:'Free', class:'free'}],
+    categories: ['games']
+  },
+  {
+    title: 'Block Defender',
+    url: 'https://blockdefender.vercel.app',
+    img: 'https://raw.githubusercontent.com/gurumel80/BlockDefender/main/screenshot.jpg',
+    icon: '🛡️',
+    desc: 'Defend your base from waves of relentless blocks in this fast-paced arcade strategy game.',
+    tags: [{text:'Browser', class:'browser'}, {text:'Free', class:'free'}],
+    categories: ['games']
+  },
+  {
+    title: 'Chronicle',
+    url: 'https://chronicle-lyart.vercel.app',
+    img: 'https://raw.githubusercontent.com/gurumel80/Chronicle/main/screenshot.jpg',
+    icon: '📖',
+    desc: 'An epic world-building adventure game. Explore, discover, and shape the story.',
+    tags: [{text:'Browser', class:'browser'}, {text:'Free', class:'free'}],
+    categories: ['games']
+  },
+  {
+    title: 'Letter Storm',
+    url: 'https://letter-storm.vercel.app',
+    img: 'https://raw.githubusercontent.com/gurumel80/Letter-Storm/main/screenshot.jpg',
+    icon: '⚡',
+    desc: 'Practise letter recognition under pressure — great for phonics warm-ups and KS1.',
+    tags: [{text:'KS1', class:'eyfs'}, {text:'Browser', class:'browser'}, {text:'Free', class:'free'}],
+    categories: ['educational']
+  },
+  {
+    title: 'Neon Alley',
+    url: 'https://bowling-one.vercel.app',
+    img: 'https://raw.githubusercontent.com/gurumel80/Bowling/main/screenshot.jpg',
+    icon: '🎳',
+    desc: 'A glowing neon bowling game — roll, aim, and strike! Great for turn-taking and coordination.',
+    tags: [{text:'EYFS', class:'eyfs'}, {text:'Browser', class:'browser'}, {text:'Free', class:'free'}],
+    categories: ['educational']
+  },
+  {
+    title: 'Number Bots',
+    url: 'https://number-bots.vercel.app',
+    img: 'https://raw.githubusercontent.com/gurumel80/Number-Bots/main/screenshot.jpg',
+    icon: '🤖',
+    desc: 'Numicon-powered number bond practice with dancing robot friends. Fun, visual, and effective.',
+    tags: [{text:'EYFS', class:'eyfs'}, {text:'Browser', class:'browser'}, {text:'Free', class:'free'}],
+    categories: ['educational']
+  },
+  {
+    title: 'Pocket Altar',
+    url: 'https://pocket-altar.vercel.app',
+    img: 'https://raw.githubusercontent.com/gurumel80/Pocket-Altar/main/screenshot.jpg',
+    icon: '🕯️',
+    desc: 'A beautiful browser-based digital altar. Set intentions, light candles, and find stillness.',
+    tags: [{text:'Browser', class:'browser'}],
+    categories: ['apps']
+  },
+  {
+    title: 'Star Soup',
+    url: 'https://star-soup.vercel.app',
+    img: 'https://raw.githubusercontent.com/gurumel80/Star-Soup/main/screenshot.jpg',
+    icon: '⭐',
+    desc: 'Help the wizard owl brew magical number soups! A gentle introduction to number bonds to 10.',
+    tags: [{text:'EYFS', class:'eyfs'}, {text:'Browser', class:'browser'}, {text:'Free', class:'free'}],
+    categories: ['educational']
+  },
+  {
+    title: 'Too Many Monkeys',
+    url: 'https://too-many-monkeys.vercel.app',
+    img: 'https://raw.githubusercontent.com/gurumel80/TooManyMonkeys/main/screenshot.jpg',
+    icon: '🐒',
+    desc: 'A chaotic resource-management game. Can you keep the monkey colony under control?',
+    tags: [{text:'Browser', class:'browser'}, {text:'Free', class:'free'}],
+    categories: ['games']
+  },
+  {
+    title: 'Wheel of Fortune',
+    url: 'https://wheel-ten-wheat.vercel.app',
+    img: 'https://raw.githubusercontent.com/gurumel80/wheel/main/screenshot.jpg',
+    icon: '🎡',
+    desc: 'A customisable spinning wheel — perfect for classroom decisions, rewards, and random picks.',
+    tags: [{text:'EYFS', class:'eyfs'}, {text:'Browser', class:'browser'}, {text:'Free', class:'free'}],
+    categories: ['educational', 'apps']
+  }
+];
+
+function createCard(item) {
+  const tagsHtml = item.tags.map(t => `<span class="tag ${t.class}">${t.text}</span>`).join('');
+  return `
+    <div class="game-card" style="cursor:pointer;" onclick="window.open('${item.url}','_blank')">
+      <div class="card-img-wrap">
+        <img src="${item.img}" alt="${item.title}" onerror="this.style.display='none'; this.parentElement.querySelector('.card-img-placeholder').style.display='flex'">
+        <div class="card-img-placeholder" style="display:none">${item.icon}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">${item.title}</div>
+        <p class="card-desc">${item.desc}</p>
+        <div class="card-tags">${tagsHtml}</div>
+        <a class="card-play-btn" href="${item.url}" target="_blank"><span class="play-arrow"></span> ${item.categories.includes('apps') ? 'Open' : 'Play Now'}</a>
+      </div>
+    </div>
+  `;
+}
+
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+function init() {
+  const getSorted = cat => ITEMS.filter(i => i.categories.includes(cat)).sort((a,b) => a.title.localeCompare(b.title));
+  
+  document.getElementById('row-games').innerHTML = getSorted('games').map(createCard).join('');
+  document.getElementById('row-educational').innerHTML = getSorted('educational').map(createCard).join('');
+  document.getElementById('row-apps').innerHTML = getSorted('apps').map(createCard).join('');
+
+  // Random Featured from Games + Educational
+  const pool = ITEMS.filter(i => i.categories.includes('games') || i.categories.includes('educational'));
+  document.getElementById('row-featured').innerHTML = shuffle([...pool]).slice(0, 4).map(createCard).join('');
+
+  // Scroll logic
+  document.querySelectorAll('.scroll-container').forEach(container => {
+    const row = container.querySelector('.scroll-row');
+    const leftBtn = container.querySelector('.scroll-btn.left');
+    const rightBtn = container.querySelector('.scroll-btn.right');
+    
+    const update = () => {
+      const isOverflowing = row.scrollWidth > row.clientWidth;
+      const showLeft = row.scrollLeft > 15;
+      const showRight = row.scrollLeft < (row.scrollWidth - row.clientWidth - 15);
+      
+      leftBtn.style.display = (isOverflowing && showLeft) ? 'flex' : 'none';
+      rightBtn.style.display = (isOverflowing && showRight) ? 'flex' : 'none';
+      leftBtn.classList.toggle('visible', showLeft);
+      rightBtn.classList.toggle('visible', showRight);
+    };
+
+    leftBtn.onclick = () => row.scrollBy({ left: -400, behavior: 'smooth' });
+    rightBtn.onclick = () => row.scrollBy({ left: 400, behavior: 'smooth' });
+    
+    row.addEventListener('scroll', update);
+    window.addEventListener('resize', update);
+    setTimeout(update, 600); // Wait for layout/images
+  });
+}
+document.addEventListener('DOMContentLoaded', init);
+</script>
 
 </body>
 </html>
